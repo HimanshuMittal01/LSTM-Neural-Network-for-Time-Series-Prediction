@@ -10,7 +10,9 @@ import math
 import matplotlib.pyplot as plt
 from core.data_processor import DataLoader
 from core.model import Model
-
+from core.player import Player
+import warnings
+warnings.filterwarnings("ignore")
 
 def plot_results(predicted_data, true_data):
     fig = plt.figure(facecolor='white')
@@ -79,12 +81,15 @@ def main():
         normalise=configs['data']['normalise']
     )
 
-    predictions = model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
+    #predictions = model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
     # predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
-    #predictions = model.predict_point_by_point(x_test)
+    predictions = model.predict_point_by_point(x_test)
 
-    plot_results_multiple(predictions, y_test, configs['data']['sequence_length'])
-    #plot_results(predictions, y_test)
+    player = Player("Himanshu", 10000, 50, predictions, y_test)
+    player.bet()
+
+    #plot_results_multiple(predictions, y_test, configs['data']['sequence_length'])
+    plot_results(predictions, y_test)
 
 
 if __name__ == '__main__':
